@@ -61,7 +61,8 @@ void setup() {
 
   t_last_active = millis();
 
-  digitalWrite(12, LOW);
+  // Deactivate HFS-Stimulator (inverse logic)
+  digitalWrite(12, HIGH);
 }
 
 void loop(void) {
@@ -123,9 +124,9 @@ void loop(void) {
         // Stimulating with Frequency (val_arr[0]) for Length val_arr[1] with interval val_arr[2] for val_arr[3] times
         int count = val_arr[0] * (1000 / val_arr[1]);
 
-        digitalWrite(12, HIGH);
-        delay(500);
         digitalWrite(12, LOW);
+        delay(500);
+        digitalWrite(12, HIGH);
         delay(500);
 
         bool terminated = false;
