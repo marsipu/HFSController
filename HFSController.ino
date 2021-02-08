@@ -43,7 +43,8 @@ void setup() {
   pinMode(A1, INPUT);  // Next-Button
   pinMode(2, INPUT);  // Minus-Button
   pinMode(3, INPUT);  // Plus-Button
-  pinMode(12, OUTPUT);  // Trigger-Output
+  pinMode(11, OUTPUT);  // Trigger-Output (sturdy connection)
+  pinMode(12, OUTPUT);  // Trigger-Output (loose connection)
 
   // setup OLED-Panel
   u8g2.begin();
@@ -61,8 +62,10 @@ void setup() {
 
   t_last_active = millis();
 
-  // Deactivate HFS-Stimulator (inverse logic)
+  // Deactivate HFS-Stimulator via loose connection (inverse logic)
   digitalWrite(12, HIGH);
+  // Deactivate HFS-Stimulator via sturdy connection
+  digitalWrite(11, LOW);
 }
 
 void loop(void) {
@@ -124,8 +127,10 @@ void loop(void) {
         // Stimulating with Frequency (val_arr[0]) for Length val_arr[1] with interval val_arr[2] for val_arr[3] times
         int count = val_arr[0] * (1000 / val_arr[1]);
 
+        digitalWrite(11, HIGH);
         digitalWrite(12, LOW);
         delay(500);
+        digitalWrite(11, LOW);
         digitalWrite(12, HIGH);
         delay(500);
 
@@ -161,7 +166,7 @@ void loop(void) {
       sleeping = false;
     }
     u8g2.sendBuffer();
-    delay(200);
+    delay(500);
   }
 
   if(digitalRead(A1)==1){
@@ -179,7 +184,7 @@ void loop(void) {
       sleeping = false;
     }
     u8g2.sendBuffer();
-    delay(200);
+    delay(500);
   }
   
 }
